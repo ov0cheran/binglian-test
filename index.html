@@ -849,54 +849,43 @@
       ]}
     ];
 
-    // ==================== 专属组合命名库 ====================
-    const combinationList = [
-      { keys: ["高压+疯病+精控+逻辑病"], name: "绝对支配型精神控制者", symbol: "♛" },
-      { keys: ["上位+疯病+精控+逻辑病"], name: "暴君型支配者", symbol: "♚" },
-      { keys: ["下位+高恋+白骑士+文艺病"], name: "献祭式救赎依恋者", symbol: "✝" },
-      { keys: ["平权+病虐+剖析+意识流"], name: "共生疼痛观察者", symbol: "⚕" },
-      { keys: ["上位+低恋+精控+逻辑病"], name: "冷血理性操控者", symbol: "♠" },
-      { keys: ["下位+疯病+剖析+意识流"], name: "混沌自毁型被支配者", symbol: "☿" },
-      { keys: ["上位+温病+白骑士+文艺病"], name: "温柔陷阱型控制者", symbol: "♡" },
-      { keys: ["高压+无恋+精控+逻辑病"], name: "绝对冷血审判者", symbol: "♣" },
-      { keys: ["下位+伪高恋+钓系+逻辑病"], name: "蛊惑型角色扮演者", symbol: "♢" },
-      { keys: ["上位+水仙+剖析+逻辑病"], name: "自恋型分析者", symbol: "♥" },
-      { keys: ["平权+高恋+剖析+文艺病"], name: "共鸣型灵魂观察者", symbol: "♁" },
-      { keys: ["上位+低恋+小狗主+逻辑病"], name: "冷血驯养者", symbol: "♤" },
-      { keys: ["下位+病虐+小狗狗+意识流"], name: "受虐型服从者", symbol: "♧" },
-      { keys: ["平权+疯病+精控+逻辑病"], name: "平衡型精神控制者", symbol: "♢" },
-      { keys: ["下位+温病+白骑士+文艺病"], name: "温柔依赖型被拯救者", symbol: "☁" },
-      { keys: ["上位+高恋+剖析+日常"], name: "理性共鸣日常者", symbol: "◈" },
-      { keys: ["平权+无恋+钓系+日常"], name: "无心钓手", symbol: "✧" },
-      { keys: ["高压+病虐+精控+逻辑病"], name: "极端疼痛操控者", symbol: "🜁" },
-      { keys: ["下位+低恋+白骑士+文艺病"], name: "伪善占有型救赎者", symbol: "🜂" },
-      { keys: ["平权+温病+剖析+日常"], name: "隐性温和观察者", symbol: "🜃" },
-      { keys: ["上位+高恋+钓系+文艺病"], name: "浪漫渔夫型引导者", symbol: "🜄" },
-      { keys: ["高压+高恋+精控+逻辑病"], name: "高压共鸣操控者", symbol: "♆" },
-      { keys: ["下位+高恋+剖析+意识流"], name: "破碎共鸣依赖者", symbol: "♇" },
-      { keys: ["平权+伪高恋+钓系+日常"], name: "表演型日常诱捕者", symbol: "♃" },
-      { keys: ["上位+疯病+白骑士+文艺病"], name: "疯狂救世主", symbol: "♄" },
-      { keys: ["下位+温病+剖析+日常"], name: "温柔依赖观察者", symbol: "♅" },
-      { keys: ["高压+低恋+白骑士+逻辑病"], name: "冷酷拯救者", symbol: "♆" },
-      { keys: ["平权+疯病+剖析+文艺病"], name: "对称疯狂分析师", symbol: "♇" },
-      { keys: ["上位+温病+剖析+日常"], name: "温和理性掌控者", symbol: "♃" },
-      { keys: ["下位+低恋+精控+逻辑病"], name: "自卑型控制者", symbol: "♄" },
-      { keys: ["平权+高恋+白骑士+日常"], name: "日常共鸣救赎者", symbol: "♅" },
-      { keys: ["高压+病虐+白骑士+意识流"], name: "疼痛救赎者", symbol: "🜁" },
-      { keys: ["下位+水仙+剖析+文艺病"], name: "自恋投射依赖者", symbol: "♆" },
-      { keys: ["上位+无恋+剖析+逻辑病"], name: "冷酷分析者", symbol: "♇" },
-      { keys: ["平权+低恋+钓系+日常"], name: "日常占有诱捕者", symbol: "♃" }
-    ];
-
-    // 自动命名片段（已补全 expression）
-    const autoNameMap = {
-      expression: { '文艺病': '诗意的', '意识流': '碎片化的', '逻辑病': '理性的', '日常': '日常的' },
-      emotion: { '疯病': '疯狂', '温病': '温柔', '低恋': '占有', '高恋': '炽恋', '伪高恋': '表演', '无恋': '冷感', '水仙': '自恋', '病虐': '疼痛' },
-      relation: { '白骑士': '救赎', '精控': '控制', '剖析': '洞察', '钓系': '引诱', '小狗主': '驯养', '小狗狗': '服从' },
-      power: { '上位': '支配者', '下位': '顺从者', '高压': '压制者', '平权': '共鸣者' }
+    // ==================== 组合名称映射（权力位置+情感内核） ====================
+    const combinationNames = {
+      "上位+疯病": "癫狂支配者",
+      "上位+温病": "温润掌局者",
+      "上位+低恋": "冷情占有者",
+      "上位+高恋": "炽恋主导者",
+      "上位+伪高恋": "假面掌权者",
+      "上位+无恋": "无心掌控者",
+      "上位+水仙": "水仙主宰",
+      "上位+病虐": "疼痛操纵者",
+      "下位+疯病": "疯魔追随者",
+      "下位+温病": "温顺依附者",
+      "下位+低恋": "卑微占有者",
+      "下位+高恋": "献祭式恋人",
+      "下位+伪高恋": "戏精依附者",
+      "下位+无恋": "无心木偶",
+      "下位+水仙": "镜中倒影",
+      "下位+病虐": "受虐恋人",
+      "高压+疯病": "疯狂压迫者",
+      "高压+温病": "高压温室",
+      "高压+低恋": "占有暴君",
+      "高压+高恋": "窒息爱意",
+      "高压+伪高恋": "假面暴君",
+      "高压+无恋": "冷血审判者",
+      "高压+水仙": "水仙暴君",
+      "高压+病虐": "施虐主宰",
+      "平权+疯病": "共生疯批",
+      "平权+温病": "温水共谋",
+      "平权+低恋": "虚伪同盟",
+      "平权+高恋": "灵魂共鸣体",
+      "平权+伪高恋": "假面共生",
+      "平权+无恋": "无心共犯",
+      "平权+水仙": "水中映月",
+      "平权+病虐": "痛感共鸣"
     };
 
-    // 类型符号映射（用于未匹配时拼接默认符号）
+    // 类型符号映射（用于生成风格卡符号）
     const typeSymbolMap = {
       '上位': '♔', '下位': '♕', '高压': '♖', '平权': '♗',
       '疯病': '🜁', '温病': '🜂', '低恋': '🜃', '高恋': '🜄',
@@ -905,24 +894,6 @@
       '小狗主': '♈', '小狗狗': '♉',
       '文艺病': '✎', '意识流': '☁', '逻辑病': '⚙', '日常': '☀'
     };
-
-    // 查找专属组合
-    function findCombination(key) {
-      for (let item of combinationList) {
-        if (item.keys.includes(key)) return item;
-      }
-      return null;
-    }
-
-    // 自动生成名称
-    function autoGenerateName(power, emotion, relation, expression) {
-      if (!power || !emotion || !relation || !expression) return '';
-      const p = autoNameMap.power[power] || '';
-      const e = autoNameMap.emotion[emotion] || '';
-      const r = autoNameMap.relation[relation] || '';
-      const x = autoNameMap.expression[expression] || '';
-      return `${x}${e}${r}${p}`;
-    }
 
     // ==================== 详细解读文本库 ====================
     const detailedDescriptions = {
@@ -1158,19 +1129,14 @@
       if (scores['剖析'] >= 3 && scores['钓系'] >= 3) specialNotes.push('观察诱饵型：先分析再引诱。');
       if (scores['病虐'] >= 3 && scores['疯病'] >= 3) specialNotes.push('疼痛成瘾型：爱与痛高度捆绑。');
 
-      // 组合键
-      const combinationKey = [power.main, emotion.main, relation.main, expression.main].filter(Boolean).join('+');
-      
-      // 获取名称和符号
-      let combinationText, combinationSymbol;
-      const combo = findCombination(combinationKey);
-      if (combo) {
-        combinationText = combo.name;
-        combinationSymbol = combo.symbol;
-      } else {
-        combinationText = autoGenerateName(power.main, emotion.main, relation.main, expression.main) || combinationKey || '无法判定';
-        combinationSymbol = '✧';
-      }
+      // 组合名称：只用权力位置 + 情感内核
+      const nameKey = `${power.main}+${emotion.main}`;
+      const combinationText = combinationNames[nameKey] || `${power.main}${emotion.main}`;
+
+      // 符号：拼接权力位置和情感内核的符号
+      const powerSymbol = typeSymbolMap[power.main] || '';
+      const emotionSymbol = typeSymbolMap[emotion.main] || '';
+      const combinationSymbol = powerSymbol + emotionSymbol || '✧';
 
       const tagList = [];
       if (power.main) tagList.push(power.main);
