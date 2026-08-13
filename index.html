@@ -284,49 +284,66 @@
     .style-card {
       position: relative;
       text-align: center;
-      padding: 30px 20px;
-      background: linear-gradient(135deg, #151526 0%, #1a1a3a 50%, #151526 100%);
-      border-radius: 16px;
+      padding: 40px 20px 30px;
+      background: linear-gradient(145deg, #1e1a38 0%, #0d0d1a 50%, #1a1a32 100%);
+      border-radius: 20px;
       margin-bottom: 25px;
       border: 1px solid #6a5acd;
-      box-shadow: 0 0 30px rgba(155,126,221,0.2), inset 0 0 30px rgba(155,126,221,0.05);
+      box-shadow: 
+        0 0 30px rgba(155,126,221,0.25),
+        inset 0 0 60px rgba(155,126,221,0.05),
+        0 0 80px rgba(155,126,221,0.1);
       overflow: hidden;
     }
     .style-card::before {
       content: '';
       position: absolute;
       top: -2px; left: -2px; right: -2px; bottom: -2px;
-      border-radius: 17px;
-      background: linear-gradient(135deg, #6a5acd, #9b7edd, #6a5acd);
+      border-radius: 21px;
+      background: linear-gradient(135deg, #6a5acd, #9b7edd, #e94560, #9b7edd, #6a5acd);
+      background-size: 400% 400%;
       z-index: -1;
-      opacity: 0.4;
-      animation: borderGlow 3s ease-in-out infinite;
+      opacity: 0.5;
+      animation: gradientBorder 6s ease-in-out infinite;
     }
-    @keyframes borderGlow {
-      0%,100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
+    @keyframes gradientBorder {
+      0%,100% { background-position: 0% 50%; opacity: 0.4; }
+      50% { background-position: 100% 50%; opacity: 0.7; }
+    }
+    .style-card-symbol {
+      font-size: 70px;
+      line-height: 1;
+      margin-bottom: 15px;
+      animation: symbolFloat 3s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(200,150,255,0.7);
+    }
+    @keyframes symbolFloat {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
     }
     .style-card-name {
       font-size: 28px;
       font-weight: 700;
       color: #f0e6ff;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       letter-spacing: 2px;
-      text-shadow: 0 0 20px rgba(200,150,255,0.5);
+      text-shadow: 0 0 20px rgba(200,150,255,0.6);
     }
     .style-card-tags {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
+      margin-top: 10px;
     }
     .style-tag {
       padding: 5px 14px;
-      background: #2a2a50;
+      background: rgba(42,42,80,0.8);
       border-radius: 20px;
       font-size: 13px;
       color: #c0b0ff;
       border: 1px solid #6a5acd;
+      backdrop-filter: blur(4px);
     }
     .result-section {
       background: #151526;
@@ -442,7 +459,6 @@
     .back-home:hover {
       background: #3a3a60;
     }
-    /* 结果页底部统计小字 */
     .footer-stats {
       text-align: center;
       margin-top: 20px;
@@ -464,6 +480,9 @@
         font-size: 32px;
         letter-spacing: 3px;
         white-space: normal;
+      }
+      .style-card-symbol {
+        font-size: 50px;
       }
     }
   </style>
@@ -506,6 +525,7 @@
 
     <!-- 主风格卡 -->
     <div class="style-card">
+      <div class="style-card-symbol" id="styleCardSymbol">✦</div>
       <div class="style-card-name" id="styleCardName"></div>
       <div class="style-card-tags" id="styleCardTags"></div>
     </div>
@@ -822,32 +842,87 @@
         { text: "不强调主权", type: "平权" }
       ]},
       { question: "25. 你更喜欢的沟通氛围是？", options: [
-        { text: "像读一首诗，暧昧又危险", type: "文艺病" },
-        { text: "像做梦，碎片化又真实", type: "意识流" },
-        { text: "像开会，条理清晰", type: "逻辑病" },
+        { text: "诗意的，暧昧又危险", type: "文艺病" },
+        { text: "碎片化，难以琢磨", type: "意识流" },
+        { text: "条理清晰", type: "逻辑病" },
         { text: "日常自然，轻松随意", type: "日常" }
       ]}
     ];
 
-    // ==================== 组合命名库 ====================
-    const combinationNames = {
-      "高压+疯病+精控+逻辑病": "绝对支配型精神控制者",
-      "上位+疯病+精控+逻辑病": "暴君型支配者",
-      "下位+高恋+白骑士+文艺病": "献祭式救赎依恋者",
-      "平权+病虐+剖析+意识流": "共生疼痛观察者",
-      "上位+低恋+精控+逻辑病": "冷血理性操控者",
-      "下位+疯病+剖析+意识流": "混沌自毁型被支配者",
-      "上位+温病+白骑士+文艺病": "温柔陷阱型控制者",
-      "高压+无恋+精控+逻辑病": "绝对冷血审判者",
-      "下位+伪高恋+钓系+逻辑病": "蛊惑型角色扮演者",
-      "上位+水仙+剖析+逻辑病": "自恋型分析者",
-      "平权+高恋+剖析+文艺病": "共鸣型灵魂观察者",
-      "上位+低恋+小狗主+逻辑病": "冷血驯养者",
-      "下位+病虐+小狗狗+意识流": "受虐型服从者",
-      "平权+疯病+精控+逻辑病": "平衡型精神控制者",
-      "下位+温病+白骑士+文艺病": "温柔依赖型被拯救者",
-      "上位+高恋+剖析+日常": "理性共鸣日常者"
+    // ==================== 专属组合命名库 ====================
+    // 每个条目可包含多个键，匹配任一即可
+    const combinationList = [
+      { keys: ["高压+疯病+精控+逻辑病"], name: "绝对支配型精神控制者", symbol: "♛" },
+      { keys: ["上位+疯病+精控+逻辑病"], name: "暴君型支配者", symbol: "♚" },
+      { keys: ["下位+高恋+白骑士+文艺病"], name: "献祭式救赎依恋者", symbol: "✝" },
+      { keys: ["平权+病虐+剖析+意识流"], name: "共生疼痛观察者", symbol: "⚕" },
+      { keys: ["上位+低恋+精控+逻辑病"], name: "冷血理性操控者", symbol: "♠" },
+      { keys: ["下位+疯病+剖析+意识流"], name: "混沌自毁型被支配者", symbol: "☿" },
+      { keys: ["上位+温病+白骑士+文艺病"], name: "温柔陷阱型控制者", symbol: "♡" },
+      { keys: ["高压+无恋+精控+逻辑病"], name: "绝对冷血审判者", symbol: "♣" },
+      { keys: ["下位+伪高恋+钓系+逻辑病"], name: "蛊惑型角色扮演者", symbol: "♢" },
+      { keys: ["上位+水仙+剖析+逻辑病"], name: "自恋型分析者", symbol: "♥" },
+      { keys: ["平权+高恋+剖析+文艺病"], name: "共鸣型灵魂观察者", symbol: "♁" },
+      { keys: ["上位+低恋+小狗主+逻辑病"], name: "冷血驯养者", symbol: "♤" },
+      { keys: ["下位+病虐+小狗狗+意识流"], name: "受虐型服从者", symbol: "♧" },
+      { keys: ["平权+疯病+精控+逻辑病"], name: "平衡型精神控制者", symbol: "♢" },
+      { keys: ["下位+温病+白骑士+文艺病"], name: "温柔依赖型被拯救者", symbol: "☁" },
+      { keys: ["上位+高恋+剖析+日常"], name: "理性共鸣日常者", symbol: "◈" },
+      { keys: ["平权+无恋+钓系+日常"], name: "无心钓手", symbol: "✧" },
+      { keys: ["高压+病虐+精控+逻辑病"], name: "极端疼痛操控者", symbol: "🜁" },
+      { keys: ["下位+低恋+白骑士+文艺病"], name: "伪善占有型救赎者", symbol: "🜂" },
+      { keys: ["平权+温病+剖析+日常"], name: "隐性温和观察者", symbol: "🜃" },
+      { keys: ["上位+高恋+钓系+文艺病"], name: "浪漫渔夫型引导者", symbol: "🜄" },
+      { keys: ["高压+高恋+精控+逻辑病"], name: "高压共鸣操控者", symbol: "♆" },
+      { keys: ["下位+高恋+剖析+意识流"], name: "破碎共鸣依赖者", symbol: "♇" },
+      { keys: ["平权+伪高恋+钓系+日常"], name: "表演型日常诱捕者", symbol: "♃" },
+      { keys: ["上位+疯病+白骑士+文艺病"], name: "疯狂救世主", symbol: "♄" },
+      { keys: ["下位+温病+剖析+日常"], name: "温柔依赖观察者", symbol: "♅" },
+      { keys: ["高压+低恋+白骑士+逻辑病"], name: "冷酷拯救者", symbol: "♆" },
+      { keys: ["平权+疯病+剖析+文艺病"], name: "对称疯狂分析师", symbol: "♇" },
+      { keys: ["上位+温病+剖析+日常"], name: "温和理性掌控者", symbol: "♃" },
+      { keys: ["下位+低恋+精控+逻辑病"], name: "自卑型控制者", symbol: "♄" },
+      { keys: ["平权+高恋+白骑士+日常"], name: "日常共鸣救赎者", symbol: "♅" },
+      { keys: ["高压+病虐+白骑士+意识流"], name: "疼痛救赎者", symbol: "🜁" },
+      { keys: ["下位+水仙+剖析+文艺病"], name: "自恋投射依赖者", symbol: "♆" },
+      { keys: ["上位+无恋+剖析+逻辑病"], name: "冷酷分析者", symbol: "♇" },
+      { keys: ["平权+低恋+钓系+日常"], name: "日常占有诱捕者", symbol: "♃" }
+    ];
+
+    // 自动命名片段
+    const autoNameMap = {
+      emotion: { '疯病': '疯狂的', '温病': '温柔的', '低恋': '占有的', '高恋': '炽恋的', '伪高恋': '表演的', '无恋': '冷感的', '水仙': '自恋的', '病虐': '痛苦的' },
+      relation: { '白骑士': '救赎', '精控': '控制', '剖析': '洞察', '钓系': '引诱', '小狗主': '驯养', '小狗狗': '服从' },
+      power: { '上位': '支配者', '下位': '顺从者', '高压': '压制者', '平权': '共鸣者' }
     };
+
+    // 类型符号映射（用于未匹配时拼接默认符号）
+    const typeSymbolMap = {
+      '上位': '♔', '下位': '♕', '高压': '♖', '平权': '♗',
+      '疯病': '🜁', '温病': '🜂', '低恋': '🜃', '高恋': '🜄',
+      '伪高恋': '☿', '无恋': '♄', '水仙': '♁', '病虐': '♆',
+      '白骑士': '♇', '精控': '♃', '剖析': '♅', '钓系': '♆',
+      '小狗主': '♈', '小狗狗': '♉',
+      '文艺病': '✎', '意识流': '☁', '逻辑病': '⚙', '日常': '☀'
+    };
+
+    // 查找专属组合
+    function findCombination(key) {
+      for (let item of combinationList) {
+        if (item.keys.includes(key)) return item;
+      }
+      return null;
+    }
+
+    // 自动生成名称
+    function autoGenerateName(power, emotion, relation, expression) {
+      if (!power || !emotion || !relation || !expression) return '';
+      const p = autoNameMap.power[power] || '';
+      const e = autoNameMap.emotion[emotion] || '';
+      const r = autoNameMap.relation[relation] || '';
+      const x = autoNameMap.expression[expression] || '';
+      return `${x}${e}${r}${p}`;
+    }
 
     // ==================== 详细解读文本库 ====================
     const detailedDescriptions = {
@@ -1083,9 +1158,19 @@
       if (scores['剖析'] >= 3 && scores['钓系'] >= 3) specialNotes.push('观察诱饵型：先分析再引诱。');
       if (scores['病虐'] >= 3 && scores['疯病'] >= 3) specialNotes.push('疼痛成瘾型：爱与痛高度捆绑。');
 
-      // 组合键与名称
+      // 组合键
       const combinationKey = [power.main, emotion.main, relation.main, expression.main].filter(Boolean).join('+');
-      const combinationText = combinationNames[combinationKey] || combinationKey || '无法判定';
+      
+      // 获取名称和符号
+      let combinationText, combinationSymbol;
+      const combo = findCombination(combinationKey);
+      if (combo) {
+        combinationText = combo.name;
+        combinationSymbol = combo.symbol;
+      } else {
+        combinationText = autoGenerateName(power.main, emotion.main, relation.main, expression.main) || combinationKey || '无法判定';
+        combinationSymbol = '✧';
+      }
 
       const tagList = [];
       if (power.main) tagList.push(power.main);
@@ -1101,6 +1186,7 @@
 
       // 更新风格卡
       document.getElementById('styleCardName').textContent = combinationText;
+      document.getElementById('styleCardSymbol').textContent = combinationSymbol;
       document.getElementById('styleCardTags').innerHTML = tagList.map(t => `<span class="style-tag">${t}</span>`).join('');
 
       const resultContent = document.getElementById('resultContent');
@@ -1139,7 +1225,8 @@
       // 构建复制摘要
       lastResultSummary = 
         '【病恋风格深度测试结果】\n' +
-        '组合：' + combinationText + '\n' +
+        '组合名称：' + combinationText + '\n' +
+        '符号：' + combinationSymbol + '\n' +
         '标签：' + tagList.join('、') + '\n\n' +
         '风格解读：\n' + detailText + '\n\n' +
         '权力位置得分：' + dimPower.map(t => t + ' ' + (scores[t]||0) + '分').join('、') + '\n' +
