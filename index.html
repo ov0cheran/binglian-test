@@ -442,6 +442,17 @@
     .back-home:hover {
       background: #3a3a60;
     }
+    /* 结果页底部统计小字 */
+    .footer-stats {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 0.5px;
+    }
+    .footer-stats span {
+      margin: 0 4px;
+    }
     @media (max-width: 700px) {
       .chart-grid {
         grid-template-columns: 1fr;
@@ -474,8 +485,8 @@
   <div id="quiz-page">
     <div class="progress-wrapper">
       <div class="progress-text">
-        <span class="page-indicator" id="pageIndicator">第 1 / 6 页</span>
-        <span class="progress-percent" id="progressPercent">17%</span>
+        <span class="page-indicator" id="pageIndicator">第 1 / 5 页</span>
+        <span class="progress-percent" id="progressPercent">20%</span>
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
@@ -519,6 +530,13 @@
 
     <button class="copy-btn" id="copyBtn" onclick="copyResult()">复制结果</button>
     <button class="back-home" onclick="backToHome()">重新测试</button>
+
+    <!-- 底部低调统计 -->
+    <div class="footer-stats">
+      <span id="busuanzi_container_site_pv">总访问量 <span id="busuanzi_value_site_pv"></span></span>
+      <span>|</span>
+      <span id="busuanzi_container_site_uv">访客数 <span id="busuanzi_value_site_uv"></span></span>
+    </div>
   </div>
 
   <script>
@@ -657,36 +675,36 @@
       osc2.stop(audioCtx.currentTime + 0.3);
     }
 
-    // ==================== 题目数据 ====================
+    // ==================== 题目数据（共25题） ====================
     const questions = [
       { question: "1. 当你和伴侣意见不一致时，你更倾向于？", options: [
-        { text: "耐心讲道理，最终让对方接受你的观点", type: "上位" },
+        { text: "讲道理，让对方接受你的观点", type: "上位" },
         { text: "直接命令对方按你说的做", type: "高压" },
         { text: "听对方的，避免争吵", type: "下位" },
-        { text: "平等讨论，但会暗中引导对方认同你", type: "平权" }
+        { text: "平等讨论，相互理解", type: "平权" }
       ]},
       { question: "2. 你理想中的亲密关系模式是？", options: [
         { text: "我是主导者，对方跟随我", type: "上位" },
         { text: "对方主导，我愿意听从", type: "下位" },
         { text: "我拥有绝对控制权，对方不能反抗", type: "高压" },
-        { text: "平等自由，但保持默契的精神绑定", type: "平权" }
+        { text: "平等自由，默契共鸣", type: "平权" }
       ]},
       { question: "3. 如果对方不服从你的安排，你会？", options: [
         { text: "加大施压，直到对方服从", type: "高压" },
         { text: "表面不追究，之后找机会再引导", type: "上位" },
-        { text: "委屈示弱，让对方心软顺从", type: "下位" },
+        { text: "委屈示弱，让对方心软", type: "下位" },
         { text: "不强迫，但会让对方感受到你的失落和疏离", type: "平权" }
       ]},
       { question: "4. 你更希望伴侣称呼你为？", options: [
-        { text: "主人/大人", type: "上位" },
-        { text: "宝贝/崽崽", type: "下位" },
-        { text: "随便叫，但必须听我的", type: "高压" },
+        { text: "姐姐/哥哥", type: "上位" },
+        { text: "宝贝/宝宝", type: "下位" },
+        { text: "主人", type: "高压" },
         { text: "直接叫名字，但要有专属昵称感", type: "平权" }
       ]},
       { question: "5. 在关系中，你更享受哪种状态？", options: [
         { text: "掌控全局，对方离不开我", type: "上位" },
         { text: "被对方管着，很有安全感", type: "下位" },
-        { text: "压制对方，让他害怕我", type: "高压" },
+        { text: "压制对方，让他害怕我，服从我", type: "高压" },
         { text: "我们彼此独立，但谁也不会背叛谁", type: "平权" }
       ]},
       { question: "6. 当对方试图反抗你的控制时，你的第一反应是？", options: [
@@ -697,7 +715,7 @@
       ]},
       { question: "7. 你表达爱意的方式更接近？", options: [
         { text: "热烈到让人窒息，无法克制", type: "疯病" },
-        { text: "温柔包容，从不发火", type: "温病" },
+        { text: "温柔包容，几乎不生气", type: "温病" },
         { text: "嘴上说爱，心里其实淡然", type: "低恋" },
         { text: "用全部真心去理解和共鸣", type: "高恋" }
       ]},
@@ -716,7 +734,7 @@
       { question: "10. 如果对方要离开你，你会？", options: [
         { text: "极端挽留，甚至用自毁威胁", type: "疯病" },
         { text: "平静接受，但暗中计划怎么让他回头", type: "低恋" },
-        { text: "哭泣哀求，说自己离不开他", type: "高恋" },
+        { text: "伤心难过，说自己离不开他", type: "高恋" },
         { text: "觉得无所谓，走就走", type: "无恋" }
       ]},
       { question: "11. 你更享受的关系状态是？", options: [
@@ -727,12 +745,12 @@
       ]},
       { question: "12. 在感情中，你觉得自己最像？", options: [
         { text: "一个需要被崇拜的偶像", type: "水仙" },
-        { text: "一个温柔的陷阱", type: "温病" },
+        { text: "一个温柔的保护者", type: "温病" },
         { text: "一个燃烧自己的疯子", type: "疯病" },
         { text: "一个旁观者", type: "无恋" }
       ]},
       { question: "13. 你理想中的爱人是？", options: [
-        { text: "能完全理解你灵魂的人", type: "高恋" },
+        { text: "能理解你，和你共鸣的人", type: "高恋" },
         { text: "能被你掌控情绪的人", type: "低恋" },
         { text: "能和你一起沉沦的人", type: "疯病" },
         { text: "能配合你演戏的人", type: "伪高恋" }
@@ -765,7 +783,7 @@
         { text: "痛苦的极致就是爱", type: "病虐" },
         { text: "偶尔的疼痛可以接受，但不能过度", type: "" },
         { text: "痛苦让我兴奋，但也让我恐惧", type: "病虐" },
-        { text: "痛苦没有意义，我只想要平静", type: "" }
+        { text: "痛苦没有意义，我不想要", type: "" }
       ]},
       { question: "19. 你更擅长用什么方式让对方离不开你？", options: [
         { text: "制造危机，再出手拯救", type: "白骑士" },
@@ -788,7 +806,7 @@
       { question: "22. 在关系中，你更喜欢哪种互动模式？", options: [
         { text: "你命令对方，对方服从", type: "小狗主" },
         { text: "对方命令你，你服从", type: "小狗狗" },
-        { text: "相互试探，看谁先低头", type: "钓系" },
+        { text: "相互试探，看谁先忍不住", type: "钓系" },
         { text: "谁都不管谁，但彼此心照不宣", type: "平权" }
       ]},
       { question: "23. 如果你是小狗文学中的角色，你更想当？", options: [
@@ -801,37 +819,13 @@
         { text: "直接宣布对方属于我", type: "小狗主" },
         { text: "在细节上标记（如昵称、习惯）", type: "小狗狗" },
         { text: "让对方主动承认你属于他", type: "钓系" },
-        { text: "不强调主权，但别人碰一下都不行", type: "平权" }
+        { text: "不强调主权", type: "平权" }
       ]},
-      { question: "25. 你更喜欢的文字风格是？", options: [
-        { text: "写诗一样，唯美但暗藏控制", type: "文艺病" },
-        { text: "跳跃、破碎，像梦呓", type: "意识流" },
-        { text: "条理清晰，像在写分析报告", type: "逻辑病" }
-      ]},
-      { question: "26. 你的日常发言风格更接近？", options: [
-        { text: "华丽辞藻，像在写情书", type: "文艺病" },
-        { text: "跳跃、破碎，让人似懂非懂", type: "意识流" },
-        { text: "冷静、理性，甚至像在谈判", type: "逻辑病" }
-      ]},
-      { question: "27. 如果让你形容自己，你会选？", options: [
-        { text: "我是深渊，也是你的光", type: "文艺病" },
-        { text: "我的脑子里有很多声音，它们都在喊你的名字", type: "意识流" },
-        { text: "我喜欢你，因为你有用且符合我的标准", type: "逻辑病" }
-      ]},
-      { question: "28. 你表达爱意时，更倾向于？", options: [
-        { text: "用诗一样的句子包裹控制欲", type: "文艺病" },
-        { text: "混乱地倾泻情绪，不留逻辑", type: "意识流" },
-        { text: "理性地分析为什么我们合适", type: "逻辑病" }
-      ]},
-      { question: "29. 如果对方看不懂你的表达，你会？", options: [
-        { text: "换更优美的措辞再表达一次", type: "文艺病" },
-        { text: "继续碎碎念，觉得他不懂你的内心世界", type: "意识流" },
-        { text: "用逻辑说服他接受你的情感逻辑", type: "逻辑病" }
-      ]},
-      { question: "30. 你更喜欢的沟通氛围是？", options: [
+      { question: "25. 你更喜欢的沟通氛围是？", options: [
         { text: "像读一首诗，暧昧又危险", type: "文艺病" },
         { text: "像做梦，碎片化又真实", type: "意识流" },
-        { text: "像开会，条理清晰", type: "逻辑病" }
+        { text: "像开会，条理清晰", type: "逻辑病" },
+        { text: "日常自然，轻松随意", type: "日常" }
       ]}
     ];
 
@@ -851,7 +845,8 @@
       "上位+低恋+小狗主+逻辑病": "冷血驯养者",
       "下位+病虐+小狗狗+意识流": "受虐型服从者",
       "平权+疯病+精控+逻辑病": "平衡型精神控制者",
-      "下位+温病+白骑士+文艺病": "温柔依赖型被拯救者"
+      "下位+温病+白骑士+文艺病": "温柔依赖型被拯救者",
+      "上位+高恋+剖析+日常": "理性共鸣日常者"
     };
 
     // ==================== 详细解读文本库 ====================
@@ -883,7 +878,8 @@
       expression: {
         '文艺病': '你习惯用华丽优美的辞藻包裹病态情感，将控制和占有欲隐藏在诗意的表达中。你的话语像情书，让对方在浪漫的氛围中不知不觉被束缚。你的表达方式极具迷惑性，让人难以察觉其中的控制本质。',
         '意识流': '你的表达破碎而混乱，充满内心独白和感官闪回。你在无序中传递真实欲望，让对方在混乱中感知你的情感。你的语言常常跳跃、隐喻，需要对方反复琢磨才能理解，这种不确定性本身就是一种控制。',
-        '逻辑病': '你用清晰缜密的逻辑衡量情感，把爱拆解成条件、责任和后果。你的表达冷静理性，像在分析报告，让对方感到窒息。你擅长用逻辑说服对方接受你的情感逻辑，让对方无法反驳。'
+        '逻辑病': '你用清晰缜密的逻辑衡量情感，把爱拆解成条件、责任和后果。你的表达冷静理性，像在分析报告，让对方感到窒息。你擅长用逻辑说服对方接受你的情感逻辑，让对方无法反驳。',
+        '日常': '你的表达方式自然随性，没有刻意的华丽或逻辑包装。你倾向于用日常话语表达情感，看似平淡，却能在不知不觉中让对方习惯你的存在，形成一种温水煮青蛙式的依赖。'
       }
     };
 
@@ -988,12 +984,10 @@
     function generateDetailedInterpretation(power, emotion, relation, expression, dogTag) {
       const paragraphs = [];
 
-      // 总体定位
       paragraphs.push(
         `你的病恋风格组合为${[power.main, emotion.main, relation.main, expression.main, dogTag].filter(Boolean).join(' + ')}。这并非单一标签，而是由权力位置、情感内核、关系模式和表达形式四个维度交织而成的复杂情感倾向。在亲密关系中，你既受这些倾向的驱动，也可能在不同情境下表现出矛盾或切换。以下将逐一拆解你在各个维度的具体表现。`
       );
 
-      // 权力位置解读
       if (power.main && detailedDescriptions.power[power.main]) {
         paragraphs.push(`【权力位置：${power.main}】${detailedDescriptions.power[power.main]}`);
       }
@@ -1001,7 +995,6 @@
         paragraphs.push(`同时，你具有明显的${power.aux}辅助倾向，这会在特定情境下软化或强化你的主导风格，使你的权力表现更具层次。`);
       }
 
-      // 情感内核解读
       if (emotion.main && detailedDescriptions.emotion[emotion.main]) {
         paragraphs.push(`【情感内核：${emotion.main}】${detailedDescriptions.emotion[emotion.main]}`);
       }
@@ -1009,7 +1002,6 @@
         paragraphs.push(`此外，${emotion.aux}作为辅助情感倾向，会在你情绪波动时浮现，与主情感相互拉扯，增添内在冲突。`);
       }
 
-      // 关系模式解读
       if (relation.main && detailedDescriptions.relation[relation.main]) {
         paragraphs.push(`【关系模式：${relation.main}】${detailedDescriptions.relation[relation.main]}`);
       }
@@ -1017,7 +1009,6 @@
         paragraphs.push(`在关系建立与维持上，你还受到${relation.aux}模式的影响，这意味着你的控制手段并非单一，可能在不同阶段切换策略。`);
       }
 
-      // 表达形式解读
       if (expression.main && detailedDescriptions.expression[expression.main]) {
         paragraphs.push(`【表达形式：${expression.main}】${detailedDescriptions.expression[expression.main]}`);
       }
@@ -1025,12 +1016,10 @@
         paragraphs.push(`辅助表达形式${expression.aux}会在你情绪波动或面对特定对象时显现，让你的表达方式更加多样。`);
       }
 
-      // 小狗文学额外解读
       if (dogTag) {
         paragraphs.push(`【附加标签：${dogTag}】你具备明显的小狗文学倾向，这表明你在关系中可能对“主/狗”角色有认同感，无论是掌控方还是服从方，你都享受这种带有忠诚、调教和信任色彩的特殊联结。`);
       }
 
-      // 总体提醒
       paragraphs.push(`以上解读仅基于本次测试的维度得分，不构成任何诊断或建议。现实关系中的情感远比测试结果复杂，请理性看待。若你发现自己或伴侣在关系中感到痛苦、窒息或失控，建议寻求专业心理支持。`);
 
       return paragraphs;
@@ -1056,7 +1045,7 @@
         疯病:0, 温病:0, 低恋:0, 高恋:0, 伪高恋:0, 无恋:0, 水仙:0, 病虐:0,
         白骑士:0, 精控:0, 剖析:0, 钓系:0,
         小狗主:0, 小狗狗:0,
-        文艺病:0, 意识流:0, 逻辑病:0
+        文艺病:0, 意识流:0, 逻辑病:0, 日常:0
       };
       questions.forEach((q, i) => {
         const opt = q.options[answers[i]];
@@ -1066,7 +1055,7 @@
       const dimPower = ['上位','下位','高压','平权'];
       const dimEmotion = ['疯病','温病','低恋','高恋','伪高恋','无恋','水仙','病虐'];
       const dimRelation = ['白骑士','精控','剖析','钓系','小狗主','小狗狗'];
-      const dimExpression = ['文艺病','意识流','逻辑病'];
+      const dimExpression = ['文艺病','意识流','逻辑病','日常'];
 
       function getMainAux(types) {
         let sorted = types.filter(t => scores[t] > 0).sort((a,b) => scores[b] - scores[a]);
@@ -1116,10 +1105,9 @@
 
       const resultContent = document.getElementById('resultContent');
       let html = '';
-      // 风格解读区块
       html += `<div class="result-section"><h3>风格解读</h3><div class="result-text">${detailHtml}</div></div>`;
 
-      // 辅助倾向（简要列出，已在解读中涉及，但仍保留）
+      // 辅助倾向摘要
       const auxList = [];
       if (power.aux) auxList.push('权力位置辅助：' + power.aux);
       if (emotion.aux) auxList.push('情感内核辅助：' + emotion.aux);
@@ -1148,7 +1136,7 @@
 
       resultContent.innerHTML = html;
 
-      // 构建复制摘要（包含详细解读纯文本）
+      // 构建复制摘要
       lastResultSummary = 
         '【病恋风格深度测试结果】\n' +
         '组合：' + combinationText + '\n' +
@@ -1316,5 +1304,7 @@
     startParticleAnimation();
     startTypewriter();
   </script>
+  <!-- 不蒜子访问统计 -->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
